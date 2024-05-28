@@ -17,7 +17,7 @@ Create a dataset jsonl file for QA task.
 
 python qa.py \
     --save_dir=./ \
-    --save_name=niah_single \
+    --save_name=qa \
     --tokenizer_path=tokenizer.model \
     --tokenizer_type=nemo \
     --max_seq_length=4096 \
@@ -33,7 +33,7 @@ from pathlib import Path
 from tqdm import tqdm
 import random
 import numpy as np
-from nemo.collections.asr.parts.utils.manifest_utils import read_manifest, write_manifest
+#from nemo.collections.asr.parts.utils.manifest_utils import read_manifest, write_manifest
 import sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")) 
 from tokenizer import select_tokenizer
@@ -204,7 +204,11 @@ def main():
         save_dir=args.save_dir
     )
     
-    write_manifest(save_file, write_jsons)
+    print(f'{save_file} save_file')
+    with open(save_file, 'w', encoding='utf-8') as f:
+        for entry in write_jsons:
+            json_line = json.dumps(entry)
+            f.write(json_line + '\n')
 
 if __name__=="__main__":
     main()

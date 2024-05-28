@@ -31,10 +31,11 @@ import os
 import argparse
 from pathlib import Path
 from tqdm import tqdm
+import json
 import random
 import string
 from constants import TASKS
-from nemo.collections.asr.parts.utils.manifest_utils import read_manifest, write_manifest
+#from nemo.collections.asr.parts.utils.manifest_utils import read_manifest, write_manifest
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")) 
@@ -202,7 +203,11 @@ def main():
                                               num_hops=args.num_hops,
                                               icl_example=icl_example)
     
-    write_manifest(save_file, write_jsons)
+    print(f'{save_file} save_file')
+    with open(save_file, 'w', encoding='utf-8') as f:
+        for entry in write_jsons:
+            json_line = json.dumps(entry)
+            f.write(json_line + '\n')
 
 if __name__=="__main__":
     main()

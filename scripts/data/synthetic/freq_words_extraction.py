@@ -35,7 +35,8 @@ from tqdm import tqdm
 import random
 import string
 import numpy as np
-from nemo.collections.asr.parts.utils.manifest_utils import read_manifest, write_manifest
+import json
+#from nemo.collections.asr.parts.utils.manifest_utils import read_manifest, write_manifest
 import sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")) 
 from tokenizer import select_tokenizer
@@ -149,7 +150,11 @@ def main():
     write_jsons = sys_kwext(num_samples=args.num_samples, max_seq_length=args.max_seq_length, 
                             incremental=10)
     
-    write_manifest(save_file, write_jsons)
+    print(f'{save_file} save_file')
+    with open(save_file, 'w', encoding='utf-8') as f:
+        for entry in write_jsons:
+            json_line = json.dumps(entry)
+            f.write(json_line + '\n')
 
 if __name__=="__main__":
     main()
